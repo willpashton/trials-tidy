@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var axios = require(axios);
+var axios = require('axios');
+const KEY = "c5387eb6cbcd424ca623e290f137b5b1"
+const baseURL = 'https://www.bungie.net/Platform';
+axios.defaults.headers.common = {
+  'X-API-Key': KEY
+};
+axios.defaults.baseURL = baseURL;
 
 async function playerSearch(namesearch, bungienamecode, page){
   try{
