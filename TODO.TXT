@@ -1,0 +1,5 @@
+CONSTANT FOLDER - On hold, will do later
+MAP IMPORT - Will's Job
+VALIDATION OF SEARCH - Nathan's Job - REGEX WOOO
+GET OTHER CHARACTERS IN INSTANCE - Will's Job
+STATS - Will's Job

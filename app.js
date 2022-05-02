@@ -7,7 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var userSearchRouter = require('./routes/userSearch');
-const { default: axios } = require('axios');
+var axios = require('axios');
+
 
 var app = express();
 
