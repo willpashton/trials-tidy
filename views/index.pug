@@ -1,0 +1,25 @@
+extends layout
+
+
+block content
+  .sidenav
+    h1
+      | TRIALS
+      br
+      | LOOKUP 
+      form(action='/userSearch', method='POST')
+        input(type='text', name='playername', placeholder='ENTER NAME', required='')
+        button(type='submit' onsubmit='/userSearch') Search
+  .content
+    h2 Current Map:
+    #contentbox
+      table#map
+        tbody
+          tr
+            td
+              p MAPHERE
+      table
+        tbody
+          tr
+            td
+              p TOPDOWN HERE

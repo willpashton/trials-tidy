@@ -1,0 +1,66 @@
+* {
+    font-family: 'Manrope';
+    color: #DDD;
+    background-color: rgb(26,26,26);
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: "Manrope";
+  }
+  p {
+    color: darkgrey;
+  }
+  /* Style the side navigation */
+  .sidenav {
+    height: 100%;
+    width: 25%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+  }
+  
+  
+  /* Side navigation links */
+  .sidenav a {
+    color: white;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color on hover */
+  .sidenav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Style the content */
+  .content {
+    margin-left: 35%;
+    padding-left: 10%;
+  }
+  
+  #contentbox1 {
+    background-color: #333;
+  }
+  
+  #search {
+      margin-left: 10%;
+      size: 10vw;
+  }
+  
+  .sidenav h1 {
+      margin-left: 10%;
+      background-color:#111;
+      color: #DDD
+  }
+
+  .sidenav form {
+    background-color:#111
+  }
+  
