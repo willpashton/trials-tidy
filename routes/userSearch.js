@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
-const KEY = "c5387eb6cbcd424ca623e290f137b5b1"
+const KEY = "c5387eb6cbcd424ca623e290f137b5b1";
 const baseURL = 'https://www.bungie.net/Platform';
 axios.defaults.headers.common = {
   'X-API-Key': KEY
@@ -40,8 +40,9 @@ async function playerSearch(namesearch, bungienamecode, page){
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
-  res.send('respond with a resource');
+  
 });
+
 router.post('/', async function(req, res){
     var playerResponse = req.body;
     var playerID = playerResponse['playername'];
@@ -68,12 +69,13 @@ router.post('/', async function(req, res){
         }
 
       }while(morePages)
+      res.render('userSearch', { usermessage: message });
 
-      res.send(message);
 
     }else{
       res.send("Error");
     }
+  
  });
 
 module.exports = router;
