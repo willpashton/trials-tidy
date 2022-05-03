@@ -3,8 +3,9 @@ var router = express.Router();
 var axios = require('axios');
 const KEY = "c5387eb6cbcd424ca623e290f137b5b1";
 const baseURL = 'https://www.bungie.net/Platform';
+const baseIconURL = 'https://www.bungie.net'
 const weaponTypesDict = {"1498876634":"Kinetic", "2465295065":"Energy", "953998645":"Power"};
-var equippedWeapons = {};
+const weaponImagesDict = {"1498876634":"KineticImage", "2465295065":"EnergyImage", "953998645":"PowerImage"};
 axios.defaults.headers.common = {
   'X-API-Key': KEY
 };
@@ -29,7 +30,6 @@ async function lastPlayedCharacter(membershipId, membType){
       const characterData = await character(membershipId, membType);
       for (const [key, value] of Object.entries(characterData)){
         var rawLastPlayed = value['dateLastPlayed']
-        console.log(new Date(rawLastPlayed));
         if (lastPlayedCompare < (new Date(rawLastPlayed))){
             lastPlayedCompare = (new Date(rawLastPlayed))
         };
@@ -71,8 +71,27 @@ async function playerSearch(namesearch, bungienamecode, page){
       console.log("Name Search Error");
   }
 }
-
-/* GET users listing. */
+async function weaponRetrieve(membershipId, membType, characterId){
+  try{
+    var inventoryData = {};
+    var inventoryIcon = {};
+    const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/Character/"+characterId+"/?components=205");
+    for (var i = 0; i < 3; i++){
+      var weaponHash = (response.data['Response']['equipment']['data']['items'][i]['itemHash']);
+      var weaponType = (response.data['Response']['equipment']['data']['items'][i]['bucketHash']);
+      const nameGet = await axios.get("/Destiny2/Manifest/DestinyInventoryItemDefinition/"+weaponHash+"/")
+      weaponName = nameGet.data["Response"]["displayProperties"]["name"]
+      weaponIcon = nameGet.data["Response"]["displayProperties"]["icon"]
+      inventoryData[weaponTypesDict[weaponType]] = weaponName;
+      inventoryIcon[weaponImagesDict[weaponType]] = baseIconURL+weaponIcon;
+    }
+    inventoryData = Object.assign({}, inventoryIcon,inventoryData);
+    return inventoryData; 
+  }
+  catch(error){
+    console.log("Weapon Fetch Error" + error)
+  };
+}
 
 router.post('/', async function(req, res){
     var playerResponse = req.body;
@@ -100,8 +119,12 @@ router.post('/', async function(req, res){
         }
 
       }while(morePages)
-      var lastPlayedCharacterReturn = await lastPlayedCharacter(membershipId, membType)
-      testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: lastPlayedCharacterReturn}
+      var characterId = await lastPlayedCharacter(membershipId, membType)
+      var inventoryData = await (weaponRetrieve(membershipId,membType,characterId))
+
+
+      testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
+      var testdictionaryweiner = Object.assign({}, inventoryData,testdictionaryweiner);
       res.render('userSearch',testdictionaryweiner);
 
     }else{
