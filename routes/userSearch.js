@@ -166,24 +166,29 @@ router.post('/', async function(req, res){
       testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
       var testdictionaryweiner = Object.assign({}, inventoryData,testdictionaryweiner);
 
-      /*var friend_ids = await fireteamRetrieve(membershipId, membType);
+      var friend_ids = await fireteamRetrieve(membershipId, membType);
       var counter = 0;
-      for (String member: friend_ids){
-        var playerID = membershipIDConverter(member, membType);
-        var characterId = await lastPlayedCharacter(member, membType);
-        if (counter == 0){
-          var inventoryData = await (weaponRetrieve(member, membType, characterId, First));
-          var friendFirst = {firstmessage: membershipId, firstname: playerID, firstCharacter: characterId};
-          friendFirst = Object.assign({}, inventoryData, friendFirst);
+      if (friend_ids.isEmpty()){
+        friendFirst = {}
+        friendSecond = {}
+      }else{
+        for (String member; friend_ids){
+          var playerID = membershipIDConverter(member, membType);
+          var characterId = await lastPlayedCharacter(member, membType);
+          if (counter == 0){
+            var inventoryData = await (weaponRetrieve(member, membType, characterId, First));
+            var friendFirst = {firstmessage: membershipId, firstname: playerID, firstCharacter: characterId};
+            friendFirst = Object.assign({}, inventoryData, friendFirst);
 
-        }else{
-          var inventoryData = await (weaponRetrieve(member, membType, characterId, Second));
-          var friendSecond = {secondmessage: membershipId, secondname: playerID, secondCharacter: characterId};
-          friendSecond = Object.assign({}, inventoryData, friendSecond);
+          }else{
+            var inventoryData = await (weaponRetrieve(member, membType, characterId, Second));
+            var friendSecond = {secondmessage: membershipId, secondname: playerID, secondCharacter: characterId};
+            friendSecond = Object.assign({}, inventoryData, friendSecond);
+          }
         }
       }
       testdictionaryweiner = Object.assign({}, friendFirst, testdictionaryweiner);
-      testdictionaryweiner = Object.assign({}, friendSecond, testdictionaryweiner);*/
+      testdictionaryweiner = Object.assign({}, friendSecond, testdictionaryweiner);
       res.render('userSearch',testdictionaryweiner);
 
     }else{
