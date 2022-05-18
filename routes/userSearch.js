@@ -163,8 +163,8 @@ router.post('/', async function(req, res){
       var inventoryData = await (weaponRetrieve(membershipId,membType,characterId,"User"));
 
 
-      testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
-      var testdictionaryweiner = Object.assign({}, inventoryData,testdictionaryweiner);
+      exportDictionary = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
+      var exportDictionary = Object.assign({}, inventoryData,exportDictionary);
       
       var friend_ids = await fireteamRetrieve(membershipId, membType);
       var counter = 0;
@@ -188,9 +188,9 @@ router.post('/', async function(req, res){
           }
         }
       }
-      testdictionaryweiner = Object.assign({}, friendFirst, testdictionaryweiner);
-      testdictionaryweiner = Object.assign({}, friendSecond, testdictionaryweiner);
-      res.render('userSearch',testdictionaryweiner);
+      exportDictionary = Object.assign({}, friendFirst, exportDictionary);
+      exportDictionary = Object.assign({}, friendSecond, exportDictionary);
+      res.render('userSearch',exportDictionary);
 
     }else{
       res.send("Error");
