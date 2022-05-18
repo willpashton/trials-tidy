@@ -68,6 +68,38 @@
     background-color: #111;
   }
 
+  #results {
+    width: 90%;
+    top: 1vw;
+  }
+  #results td{
+    padding: 0vw 1.5vw;
+  }
+  #results #three{
+    background-color: #111;
+    border-left: solid thick;
+    border-color: rgb(26,26,26);
+  }
+  #results #two{
+    background-color: #111;
+    border-left: solid thick;
+    border-right: solid thick;
+    border-color: rgb(26,26,26);
+  } 
+  #results #one{
+    background-color: #111;
+    border-right: solid thick;
+    border-color: rgb(26,26,26);
+  }
+  #results #one p{
+    border:none;
+  }
+  #results #two p{
+    border:none;
+  }
+  #results #three p{
+    border:none;
+  }
   #search {
       margin-left: 10%;
       size: 10vw;
@@ -101,5 +133,8 @@
     #map td img{
       height: auto;
       width: 100%;
+    }
+    #results{
+      width: 90%;
     }
   }
