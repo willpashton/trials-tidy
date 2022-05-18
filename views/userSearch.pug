@@ -1,19 +1,76 @@
 extends layout 
 
 block content
-    h1 UserID 
-    p #{username}
-    p #{usermessage}
-    p #{lastCharacter}
-    p #{KineticUser}
-    img#kineticicon(src='')
-    p #{EnergyUser}
-    img#energyicon(src='')
-    p #{PowerUser}
-    img#powericon(src="")
-    p #{firstName}
-    p #{secondName}
+  .sidenav
+    h1
+      | TRIALS    
+      br
+      | LOOKUP 
+      form(action='/userSearch', method='POST')
+        input(type='text', name='playername', placeholder='ENTER NAME', required='')
+        button(type='submit' onsubmit='/userSearch') Search
+  .content
+    #contentbox
+        table#results
+            tbody 
+                tr
+                    td
+                        p #{username}
+                    td 
+                        p #{firstName}
+                    td 
+                        p  #{secondName}
+                tr
+                    td
+                        p #{usermessage}
+                    td 
+                        p #{firstMessage}
+                    td 
+                        p #{secondMessage}
+                tr
+                    td
+                        p #{lastCharacter}
+                    td 
+                        p #{firstCharacter}
+                    td 
+                        p #{secondCharacter}
+                tr
+                    td
+                        p #{KineticUser} 
+                        img#kineticUser(src='')
+                    td 
+                        p #{KineticFirst} 
+                        img#kineticFirst(src='')
+                    td 
+                        p #{KinecticSecond} 
+                        img#kineticSecond(src='')
+                tr
+                    td
+                        p #{EnergyUser} 
+                        img#energyUser(src='')
+                    td 
+                        p #{EnergyFirst} 
+                        img#energyFirst(src='')
+                    td 
+                        p #{EnergySecond} 
+                        img#energySecond(src='')
+                tr
+                    td
+                        p #{PowerUser} 
+                        img#powerUser(src='')
+                    td 
+                        p #{PowerFirst} 
+                        img#powerFirst(src='')
+                    td 
+                        p #{PowerSecond} 
+                        img#powerSecond(src='')
     script.
-     document.getElementById("kineticicon").src = '#{KineticImageUser}';
-     document.getElementById("energyicon").src = '#{EnergyImageUser}';
-     document.getElementById("powericon").src = '#{PowerImageUser}';
+     document.getElementById("kineticUser").src = '#{KineticImageUser}';
+     document.getElementById("energyUser").src = '#{EnergyImageUser}';
+     document.getElementById("powerUser").src = '#{PowerImageUser}';
+     document.getElementById("kineticFirst").src = '#{KineticImageFirst}';
+     document.getElementById("energyFirst").src = '#{EnergyImageFirst}';
+     document.getElementById("powerFirst").src = '#{PowerImageFirst}';
+     document.getElementById("kineticSecond").src = '#{KineticImageSecond}';
+     document.getElementById("energySecond").src = '#{EnergyImageSecond}';
+     document.getElementById("powerSecond").src = '#{PowerImageSecond}';

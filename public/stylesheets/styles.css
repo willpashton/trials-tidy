@@ -58,7 +58,7 @@
     background-color: rgb(26,26,26);
     padding: 0vw 0vw;
   }
-  map td img{
+  #map td img{
     background-color: rgb(26,26,26);
     height: 100%;
     width: auto;
