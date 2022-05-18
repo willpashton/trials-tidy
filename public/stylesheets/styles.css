@@ -41,15 +41,27 @@
   
   /* Style the content */
   .content {
-    margin-left: 35%;
+    margin-left: 25%;
     padding-left: 10%;
     /*background-color: rgb(26,26,26);*/
   }
 
-  #map td{
-    background-color: #ddd;
+  #map{
+    width: 80%;
+    border-spacing: 0px 50px;
   }
-  
+  #map td p{
+    background-color: #111;
+    padding: 1vw 2vw;
+  }
+  map td img{
+    background-color: rgb(26,26,26);
+  }
+
+  #map p{
+    background-color: #111;
+  }
+
   #search {
       margin-left: 10%;
       size: 10vw;
@@ -76,5 +88,8 @@
     .sidenav h1 br{
       display:none;
     }
-    .content {margin-left: 10%;}
+    .content {margin-left: 0%;}
+    #map{
+      width: 90%;
+    }
   }
