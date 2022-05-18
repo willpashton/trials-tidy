@@ -72,7 +72,7 @@ async function playerSearch(namesearch, bungienamecode, page){
       console.log("Name Search Error");
   }
 }
-async function weaponRetrieve(membershipId, membType, characterId){
+async function weaponRetrieve(membershipId, membType, characterId, userType){
   try{
     var inventoryData = {};
     var inventoryIcon = {};
@@ -83,8 +83,10 @@ async function weaponRetrieve(membershipId, membType, characterId){
       const nameGet = await axios.get("/Destiny2/Manifest/DestinyInventoryItemDefinition/"+weaponHash+"/")
       weaponName = nameGet.data["Response"]["displayProperties"]["name"]
       weaponIcon = nameGet.data["Response"]["displayProperties"]["icon"]
-      inventoryData[weaponTypesDict[weaponType]] = weaponName;
-      inventoryIcon[weaponImagesDict[weaponType]] = baseIconURL+weaponIcon;
+      var key1 = weaponTypesDict[weaponType] + userType;
+      var key2 = weaponImagesDict[weaponType] + userType;
+      inventoryData[key1] = weaponName;
+      inventoryIcon[key2] = baseIconURL+weaponIcon;
     }
     inventoryData = Object.assign({}, inventoryIcon,inventoryData);
     return inventoryData; 
@@ -130,12 +132,30 @@ router.post('/', async function(req, res){
         }
 
       }while(morePages)
-      var characterId = await lastPlayedCharacter(membershipId, membType)
-      var inventoryData = await (weaponRetrieve(membershipId,membType,characterId))
+      var characterId = await lastPlayedCharacter(membershipId, membType);
+      var inventoryData = await (weaponRetrieve(membershipId,membType,characterId,"User"));
 
 
       testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
       var testdictionaryweiner = Object.assign({}, inventoryData,testdictionaryweiner);
+
+      /*var friend_ids = await fireteamRetrieve(membershipId, membType);
+      var counter = 0;
+      for (String member: friend_ids){
+        var characterId = await lastPlayedCharacter(member, 3);
+        if (counter == 0){
+          var inventoryData = await (weaponRetrieve(member, 3, characterId, First));
+          var friendFirst = {firstmessage: membershipId, firstname: playerID, firstCharacter: characterId};
+          friendFirst = Object.assign({}, inventoryData, friendFirst);
+
+        }else{
+          var inventoryData = await (weaponRetrieve(member, 3, characterId, Second));
+          var friendSecond = {secondmessage: membershipId, secondname: playerID, secondCharacter: characterId};
+          friendSecond = Object.assign({}, inventoryData, friendSecond);
+        }
+      }
+      testdictionaryweiner = Object.assign({}, friendFirst, testdictionaryweiner);
+      testdictionaryweiner = Object.assign({}, friendSecond, testdictionaryweiner);*/
       res.render('userSearch',testdictionaryweiner);
 
     }else{
