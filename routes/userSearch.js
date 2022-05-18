@@ -197,10 +197,4 @@ router.post('/', async function(req, res){
   
  });
 
-async function main(){
-  test = await fireteamRetrieve(testAccountID, "3")
-  console.log(test)
-}
-
-main()
 module.exports = router;
