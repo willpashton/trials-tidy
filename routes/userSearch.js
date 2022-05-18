@@ -173,7 +173,7 @@ router.post('/', async function(req, res){
         friendSecond = {secondMessage: "Fireteam member not found", secondName: "", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
       }else{
         for (const member of friend_ids){
-          var playerID = membershipIDConverter(member, membType);
+          var playerID = await membershipIDConverter(member, membType);
           var characterId = await lastPlayedCharacter(member, membType);
           if (counter == 0){
             var inventoryData = await (weaponRetrieve(member, membType, characterId, "First"));
