@@ -110,7 +110,8 @@ async function weaponRetrieve(membershipId, membType, characterId, userType){
 async function fireteamRetrieve(membershipId, membType){
   try{
     const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=1000")
-    console.log(response)
+    transitoryData = response.data["Response"]["profileTransitoryData"]
+    console.log(Object.keys(transitoryData).length)
   }
   catch(error){
     console.log("Fireteam Fetch Error" + error)
@@ -175,4 +176,5 @@ router.post('/', async function(req, res){
   
  });
 
+fireteamRetrieve("4611686018489611682", "3")
 module.exports = router;
