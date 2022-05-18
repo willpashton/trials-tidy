@@ -106,7 +106,17 @@ async function weaponRetrieve(membershipId, membType, characterId, userType){
     console.log("Weapon Fetch Error" + error)
   };
 }
-
+async function fetchplayerKD(membershipId, membType){
+  try{
+    const response = await axios.get("/Destiny2/"+membType+"/Account/"+membershipId+"/Character/0/Stats/?modes=5&periodType=AllTime&groups=1,101,2")
+    crucibleKDRaw = response.data["Response"]["allPvP"]["allTime"]["killsDeathsRatio"]["basic"]["value"]
+    crucibleKD = String(Math.round((crucibleKDRaw + Number.EPSILON) * 100) / 100);
+    return crucibleKD;
+  }
+  catch(error){
+    console.log("Stat Fetch Error "+error)
+  }
+}
 async function fireteamRetrieve(membershipId, membType){
   fireteamArray = []
   try{
@@ -198,4 +208,5 @@ router.post('/', async function(req, res){
   
  });
 
+fetchplayerKD(testAccountID,"3")
 module.exports = router;
