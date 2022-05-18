@@ -45,6 +45,10 @@
     padding-left: 10%;
     /*background-color: rgb(26,26,26);*/
   }
+  #contentbox1{
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
 
   #map{
     width: 80%;
@@ -74,22 +78,38 @@
   }
   #results td{
     padding: 0vw 1.5vw;
+    margin-top: none;
+    margin-bottom: none;
+    border-bottom: none;
+    border-top: none;
   }
   #results #three{
     background-color: #111;
     border-left: solid thick;
     border-color: rgb(26,26,26);
+    border-bottom: none;
+    border-top: none;
+    margin-top: none;
+    margin-bottom: none;
   }
   #results #two{
     background-color: #111;
     border-left: solid thick;
     border-right: solid thick;
     border-color: rgb(26,26,26);
+    border-bottom: none;
+    border-top: none;
+    margin-top: none;
+    margin-bottom: none;
   } 
   #results #one{
     background-color: #111;
     border-right: solid thick;
     border-color: rgb(26,26,26);
+    border-bottom: none;
+    border-top: none;
+    margin-top: none;
+    margin-bottom: none;
   }
   #results #one p{
     border:none;

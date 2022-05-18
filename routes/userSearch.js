@@ -118,15 +118,15 @@ async function fetchplayerKD(membershipId, membType){
   }
 }
 async function fireteamRetrieve(membershipId, membType){
-  fireteamArray = []
+  fireteamArray = [];
   try{
-    const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=1000")
-    transitoryData = response.data["Response"]["profileTransitoryData"]
+    const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=1000");
+    transitoryData = response.data["Response"]["profileTransitoryData"];
     if (Object.keys(transitoryData).length == 2){
-      fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"]
+      fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"];
       if (Object.keys(fireteamMembers).length > 1){
-      for (var i = 1; i < xs.length; i++){
-        fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i]["membershipId"])
+        for (var i = 1; i < xs.length; i++){
+          fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i]["membershipId"]);
       };
      }
      else{
@@ -177,9 +177,9 @@ router.post('/', async function(req, res){
       var exportDictionary = Object.assign({}, inventoryData,exportDictionary);
       
       var friend_ids = await fireteamRetrieve(membershipId, membType);
+      console.log(typeof(friend_ids));
       var counter = 0;
-      if ((friend_ids).length == 0){
-        console.log("GOT IT");
+      if ((friend_ids.length) == 0){
         friendFirst = {firstMessage: "", firstName: "Fireteam member not found", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""}
         friendSecond = {secondMessage: "", secondName: "Fireteam member not found", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
       }else{
@@ -208,5 +208,4 @@ router.post('/', async function(req, res){
   
  });
 
-fetchplayerKD(testAccountID,"3")
 module.exports = router;
