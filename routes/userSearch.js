@@ -108,10 +108,25 @@ async function weaponRetrieve(membershipId, membType, characterId, userType){
 }
 
 async function fireteamRetrieve(membershipId, membType){
+  fireteamArray = []
   try{
     const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=1000")
     transitoryData = response.data["Response"]["profileTransitoryData"]
-    console.log(Object.keys(transitoryData).length)
+    if (Object.keys(transitoryData).length = 2){
+     fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"]
+     if (Object.keys(fireteamMembers).length > 1){
+      for (var i = 1; i < xs.length; i++){
+        fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i]["membershipId"])
+      };
+     }
+     else{
+       return fireteamArray
+     }
+    }
+    else{
+      return fireteamArray
+    }
+
   }
   catch(error){
     console.log("Fireteam Fetch Error" + error)
@@ -177,5 +192,5 @@ router.post('/', async function(req, res){
   
  });
 
-fireteamRetrieve("4611686018489611682", "3")
+
 module.exports = router;
