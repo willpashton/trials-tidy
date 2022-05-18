@@ -165,10 +165,10 @@ router.post('/', async function(req, res){
 
       testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
       var testdictionaryweiner = Object.assign({}, inventoryData,testdictionaryweiner);
-
+      
       var friend_ids = await fireteamRetrieve(membershipId, membType);
       var counter = 0;
-      if (friend_ids.isEmpty()){
+      if (friend_ids == []){
         friendFirst = {firstMessage: "Fireteam member not found", firstName: "", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""}
         friendSecond = {secondMessage: "Fireteam member not found", secondName: "", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
       }else{
