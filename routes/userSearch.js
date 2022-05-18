@@ -12,6 +12,17 @@ axios.defaults.headers.common = {
 };
 axios.defaults.baseURL = baseURL;
 
+async function membershipIDConverter(membershipId, membType){
+  try{
+    const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=100");
+    var bungieID = (response.data["Response"]["profile"]["data"]["userInfo"]["bungieGlobalDisplayName"]+
+    "#"+response.data["Response"]["profile"]["data"]["userInfo"]["bungieGlobalDisplayNameCode"]);
+    return bungieID;
+  }
+  catch(error){
+    console.log("Bungie ID Fetch Error")
+  }
+}
 async function character(membershipId, membType){
   try{
       const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=200");
