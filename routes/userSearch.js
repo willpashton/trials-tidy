@@ -166,10 +166,10 @@ router.post('/', async function(req, res){
       testdictionaryweiner = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
       var testdictionaryweiner = Object.assign({}, inventoryData,testdictionaryweiner);
 
-      var friend_ids = await fireteamRetrieve(membershipId, membType);
+      /*var friend_ids = await fireteamRetrieve(membershipId, membType);
       var counter = 0;
       if (friend_ids.isEmpty()){
-        friendFirst = {}
+        friendFirst = {firstmessage: "Fireteam member not found", firstname: "";fir}
         friendSecond = {}
       }else{
         for (const member of friend_ids){
@@ -177,18 +177,18 @@ router.post('/', async function(req, res){
           var characterId = await lastPlayedCharacter(member, membType);
           if (counter == 0){
             var inventoryData = await (weaponRetrieve(member, membType, characterId, First));
-            var friendFirst = {firstmessage: membershipId, firstname: playerID, firstCharacter: characterId};
+            var friendFirst = {firstMessage: membershipId, firstName: playerID, firstCharacter: characterId};
             friendFirst = Object.assign({}, inventoryData, friendFirst);
 
           }else{
             var inventoryData = await (weaponRetrieve(member, membType, characterId, Second));
-            var friendSecond = {secondmessage: membershipId, secondname: playerID, secondCharacter: characterId};
+            var friendSecond = {secondMessage: membershipId, secondname: playerID, secondCharacter: characterId};
             friendSecond = Object.assign({}, inventoryData, friendSecond);
           }
         }
       }
       testdictionaryweiner = Object.assign({}, friendFirst, testdictionaryweiner);
-      testdictionaryweiner = Object.assign({}, friendSecond, testdictionaryweiner);
+      testdictionaryweiner = Object.assign({}, friendSecond, testdictionaryweiner);*/
       res.render('userSearch',testdictionaryweiner);
 
     }else{
