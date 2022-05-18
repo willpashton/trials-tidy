@@ -83,6 +83,10 @@
     border-bottom: none;
     border-top: none;
   }
+  #results td img{
+    padding: 0.5vw 1.5vw;
+    background-color: #111;
+  }
   #results #three{
     background-color: #111;
     border-left: solid thick;
