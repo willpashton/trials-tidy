@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var axios = require('axios');
+const testAccountID = "4611686018483213969";
 const KEY = "c5387eb6cbcd424ca623e290f137b5b1";
 const baseURL = 'https://www.bungie.net/Platform';
 const baseIconURL = 'https://www.bungie.net'
@@ -93,6 +94,16 @@ async function weaponRetrieve(membershipId, membType, characterId){
   };
 }
 
+async function fireteamRetrieve(membershipId, membType){
+  try{
+    const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=1000")
+    console.log(response)
+  }
+  catch(error){
+    console.log("Fireteam Fetch Error" + error)
+
+  }
+}
 router.post('/', async function(req, res){
     var playerResponse = req.body;
     var playerID = playerResponse['playername'];
