@@ -168,9 +168,10 @@ router.post('/', async function(req, res){
       
       var friend_ids = await fireteamRetrieve(membershipId, membType);
       var counter = 0;
-      if (friend_ids == []){
-        friendFirst = {firstMessage: "Fireteam member not found", firstName: "", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""}
-        friendSecond = {secondMessage: "Fireteam member not found", secondName: "", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
+      if ((friend_ids).length == 0){
+        console.log("GOT IT");
+        friendFirst = {firstMessage: "", firstName: "Fireteam member not found", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""}
+        friendSecond = {secondMessage: "", secondName: "Fireteam member not found", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
       }else{
         for (const member of friend_ids){
           var playerID = await membershipIDConverter(member, membType);
