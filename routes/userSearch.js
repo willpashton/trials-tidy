@@ -154,14 +154,15 @@ router.post('/', async function(req, res){
       /*var friend_ids = await fireteamRetrieve(membershipId, membType);
       var counter = 0;
       for (String member: friend_ids){
-        var characterId = await lastPlayedCharacter(member, 3);
+        var playerID = membershipIDConverter(member, membType);
+        var characterId = await lastPlayedCharacter(member, membType);
         if (counter == 0){
-          var inventoryData = await (weaponRetrieve(member, 3, characterId, First));
+          var inventoryData = await (weaponRetrieve(member, membType, characterId, First));
           var friendFirst = {firstmessage: membershipId, firstname: playerID, firstCharacter: characterId};
           friendFirst = Object.assign({}, inventoryData, friendFirst);
 
         }else{
-          var inventoryData = await (weaponRetrieve(member, 3, characterId, Second));
+          var inventoryData = await (weaponRetrieve(member, membType, characterId, Second));
           var friendSecond = {secondmessage: membershipId, secondname: playerID, secondCharacter: characterId};
           friendSecond = Object.assign({}, inventoryData, friendSecond);
         }
