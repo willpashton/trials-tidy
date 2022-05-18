@@ -112,9 +112,9 @@ async function fireteamRetrieve(membershipId, membType){
   try{
     const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=1000")
     transitoryData = response.data["Response"]["profileTransitoryData"]
-    if (Object.keys(transitoryData).length = 2){
-     fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"]
-     if (Object.keys(fireteamMembers).length > 1){
+    if (Object.keys(transitoryData).length == 2){
+      fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"]
+      if (Object.keys(fireteamMembers).length > 1){
       for (var i = 1; i < xs.length; i++){
         fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i]["membershipId"])
       };
@@ -172,7 +172,7 @@ router.post('/', async function(req, res){
         friendFirst = {}
         friendSecond = {}
       }else{
-        for (String member; friend_ids){
+        for (const member of friend_ids){
           var playerID = membershipIDConverter(member, membType);
           var characterId = await lastPlayedCharacter(member, membType);
           if (counter == 0){
@@ -197,5 +197,10 @@ router.post('/', async function(req, res){
   
  });
 
+async function main(){
+  test = await fireteamRetrieve(testAccountID, "3")
+  console.log(test)
+}
 
+main()
 module.exports = router;
