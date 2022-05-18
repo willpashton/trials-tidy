@@ -12,46 +12,46 @@ axios.defaults.headers.common = {
 };
 axios.defaults.baseURL = baseURL;
 
-async function membershipIDConverter(membershipId, membType){
+async function membershipIDConverter(membershipId){
   try{
-    const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=100");
-    var bungieID = (response.data["Response"]["profile"]["data"]["userInfo"]["bungieGlobalDisplayName"]+
-    "#"+response.data["Response"]["profile"]["data"]["userInfo"]["bungieGlobalDisplayNameCode"]);
-    return bungieID;
+    const response = await axios.get("User/GetMembershipsById/"+membershipId+"/-1/");
+    bungieID = response.data["Response"]["bungieNetUser"]["uniqueName"];
+    friendMembType = response.data["Response"]["destinyMemberships"][0]["LastSeenDisplayNameType"];
+    return [bungieID, friendMembType];
   }
   catch(error){
-    console.log("Bungie ID Fetch Error")
+    console.log("Bungie ID Fetch Error"+error);
   }
 }
 async function character(membershipId, membType){
   try{
       const response = await axios.get("/Destiny2/"+membType+"/Profile/"+membershipId+"/?components=200");
-      var characterData = response.data["Response"]["characters"]["data"]
+      var characterData = response.data["Response"]["characters"]["data"];
       return characterData;
   }
   catch(error){
-      console.log("Character Fetch Error")
+      console.log("Character Fetch Error");
   }
 }
 async function lastPlayedCharacter(membershipId, membType){
-  lastPlayed = {}
-  lastPlayedCompare = new Date('1999-01-12')
+  lastPlayed = {};
+  lastPlayedCompare = new Date('1999-01-12');
   try{
       //console.log("/Destiny2/"+membType+"/Account/"+membershipId+"/Character/"
       //+characterId+"/Stats/Activities/?count=1&page=0")
       const characterData = await character(membershipId, membType);
       for (const [key, value] of Object.entries(characterData)){
-        var rawLastPlayed = value['dateLastPlayed']
+        var rawLastPlayed = value['dateLastPlayed'];
         if (lastPlayedCompare < (new Date(rawLastPlayed))){
             lastPlayedCompare = (new Date(rawLastPlayed))
         };
         lastPlayed[new Date(rawLastPlayed)] = key;
       };
-      var lastPlayedCharacterId = lastPlayed[lastPlayedCompare]
+      var lastPlayedCharacterId = lastPlayed[lastPlayedCompare];
       return lastPlayedCharacterId;
   }
   catch (error){
-      console.log("Error with last activity")
+      console.log("Error with last activity");
   }
 }
 async function playerSearch(namesearch, bungienamecode, page){
@@ -108,13 +108,13 @@ async function weaponRetrieve(membershipId, membType, characterId, userType){
 }
 async function fetchplayerKD(membershipId, membType){
   try{
-    const response = await axios.get("/Destiny2/"+membType+"/Account/"+membershipId+"/Character/0/Stats/?modes=5&periodType=AllTime&groups=1,101,2")
-    crucibleKDRaw = response.data["Response"]["allPvP"]["allTime"]["killsDeathsRatio"]["basic"]["value"]
+    const response = await axios.get("/Destiny2/"+membType+"/Account/"+membershipId+"/Character/0/Stats/?modes=5&periodType=AllTime&groups=1,101,2");
+    crucibleKDRaw = response.data["Response"]["allPvP"]["allTime"]["killsDeathsRatio"]["basic"]["value"];
     crucibleKD = String(Math.round((crucibleKDRaw + Number.EPSILON) * 100) / 100);
     return crucibleKD;
   }
   catch(error){
-    console.log("Stat Fetch Error "+error)
+    console.log("Stat Fetch Error "+error);
   }
 }
 async function fireteamRetrieve(membershipId, membType){
@@ -125,17 +125,18 @@ async function fireteamRetrieve(membershipId, membType){
     if (Object.keys(transitoryData).length == 2){
       fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"];
       if (Object.keys(fireteamMembers).length > 1){
-        for (var i = 1; i < xs.length; i++){
+        for (var i = 1; i <= 2; i++){
           fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i]["membershipId"]);
-      };
+      }
      }
      else{
-       return fireteamArray
+       return fireteamArray;
      }
     }
     else{
-      return fireteamArray
+      return fireteamArray;
     }
+    return fireteamArray;
 
   }
   catch(error){
@@ -176,24 +177,26 @@ router.post('/', async function(req, res){
       exportDictionary = {usermessage: membershipId,username: playerID, lastCharacter: characterId};
       var exportDictionary = Object.assign({}, inventoryData,exportDictionary);
       
-      var friend_ids = await fireteamRetrieve(membershipId, membType);
-      console.log(typeof(friend_ids));
-      var counter = 0;
-      if ((friend_ids.length) == 0){
+      friend_ids = await fireteamRetrieve(membershipId, membType);
+      counter = 0;
+      if (Object.keys(friend_ids).length == 0){
         friendFirst = {firstMessage: "", firstName: "Fireteam member not found", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""}
         friendSecond = {secondMessage: "", secondName: "Fireteam member not found", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
       }else{
         for (const member of friend_ids){
-          var playerID = await membershipIDConverter(member, membType);
-          var characterId = await lastPlayedCharacter(member, membType);
+          membershipInfo = await membershipIDConverter(member);
+          playerID = membershipInfo[0]
+          friendMembType = membershipInfo[1]
+          characterId = await lastPlayedCharacter(member,friendMembType);
           if (counter == 0){
-            var inventoryData = await (weaponRetrieve(member, membType, characterId, "First"));
-            var friendFirst = {firstMessage: membershipId, firstName: playerID, firstCharacter: characterId};
+            inventoryData = await (weaponRetrieve(member, friendMembType, characterId, "First"));
+            friendFirst = {firstMessage: member, firstName: playerID, firstCharacter: characterId};
             friendFirst = Object.assign({}, inventoryData, friendFirst);
+            counter++;
 
           }else{
-            var inventoryData = await (weaponRetrieve(member, membType, characterId, "Second"));
-            var friendSecond = {secondMessage: membershipId, secondName: playerID, secondCharacter: characterId};
+            inventoryData = await (weaponRetrieve(member, friendMembType, characterId, "Second"));
+            friendSecond = {secondMessage: member, secondName: playerID, secondCharacter: characterId};
             friendSecond = Object.assign({}, inventoryData, friendSecond);
           }
         }
@@ -207,5 +210,8 @@ router.post('/', async function(req, res){
     }
   
  });
-
+/*async function main(){
+  membershipInfo = await membershipIDConverter(testAccountID);
+  console.log(membershipInfo);
+}*/
 module.exports = router;
