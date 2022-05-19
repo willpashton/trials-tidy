@@ -125,8 +125,15 @@ async function fireteamRetrieve(membershipId, membType){
     if (Object.keys(transitoryData).length == 2){
       fireteamMembers = response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"];
       if (Object.keys(fireteamMembers).length > 1){
-        for (var i = 1; i <= 2; i++){
-          fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i]["membershipId"]);
+        if (Object.keys(fireteamMembers).length > 3){
+          x = (Object.keys(fireteamMembers).length)-2
+        }else{
+          x = 1
+          console.log(x)
+        }
+        for (var i = Object.keys(fireteamMembers).length; i > x; i--){
+          console.log(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i-1]["membershipId"])
+          fireteamArray.push(response.data["Response"]["profileTransitoryData"]["data"]["partyMembers"][i-1]["membershipId"]);
       }
      }
      else{
@@ -178,23 +185,20 @@ router.post('/', async function(req, res){
       var exportDictionary = Object.assign({}, inventoryData,exportDictionary);
       
       friend_ids = await fireteamRetrieve(membershipId, membType);
-      counter = 0;
-      if (Object.keys(friend_ids).length == 0){
-        friendFirst = {firstMessage: "", firstName: "Fireteam member not found", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""}
-        friendSecond = {secondMessage: "", secondName: "Fireteam member not found", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""}
-      }else{
+      console.log(friend_ids);
+      friendFirst = {firstMessage: "", firstName: "Fireteam member not found", firstCharacter: "", KineticFirst: "", EnergyFirst: "", PowerFirst: "",KineticImageFirst: "",EnergyImageFirst: "",PowerImageFirst: ""};
+      friendSecond = {secondMessage: "", secondName: "Fireteam member not found", secondCharacter: "", KineticSecond: "", EnergySecond: "", PowerSecond: "",KineticImageSecond: "",EnergyImageSecond: "",PowerImageSecond: ""};
+      if (Object.keys(friend_ids).length != 0){
         for (const member of friend_ids){
           membershipInfo = await membershipIDConverter(member);
           playerID = membershipInfo[0]
           friendMembType = membershipInfo[1]
           characterId = await lastPlayedCharacter(member,friendMembType);
-          if (counter == 0){
+          if (Object.keys(friend_ids).length == 1){
             inventoryData = await (weaponRetrieve(member, friendMembType, characterId, "First"));
             friendFirst = {firstMessage: member, firstName: playerID, firstCharacter: characterId};
             friendFirst = Object.assign({}, inventoryData, friendFirst);
-            counter++;
-
-          }else{
+          }else if(Object.keys(friend_ids).length == 2){
             inventoryData = await (weaponRetrieve(member, friendMembType, characterId, "Second"));
             friendSecond = {secondMessage: member, secondName: playerID, secondCharacter: characterId};
             friendSecond = Object.assign({}, inventoryData, friendSecond);
